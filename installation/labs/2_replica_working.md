@@ -179,3 +179,117 @@ mysql> grant all on oozie.* TO 'oozie'@'%' IDENTIFIED BY 'password_for_oozie';
 Query OK, 0 rows affected (0.00 sec)
 ```
 
+# 5. Enabling Galera cluster
+On node0 id added the following to /etc/my.cnf.d/lab.cnf:
+```
+# Galera Provider Configuration
+wsrep_on=ON
+wsrep_provider=/usr/lib64/galera/libgalera_smm.so
+
+# Galera Cluster Configuration
+wsrep_cluster_name="cebsMariaCluster"
+wsrep_cluster_address="gcomm://"
+
+# Galera Synchronization Congifuration
+wsrep_sst_method=rsync
+
+# Galera Node Configuration
+wsrep_node_address="172.31.1.215"
+wsrep_node_name="node0"
+```
+
+On node2 I added the following to /etc/my.cnf.d/lab.cnf:
+```
+# Galera Provider Configuration
+wsrep_on=ON
+wsrep_provider=/usr/lib64/galera/libgalera_smm.so
+
+# Galera Cluster Configuration
+wsrep_cluster_name="cebsMariaCluster"
+wsrep_cluster_address="gcomm://172.31.1.215"
+
+# Galera Synchronization Congifuration
+wsrep_sst_method=rsync
+
+# Galera Node Configuration
+wsrep_node_address="172.31.15.231"
+wsrep_node_name="node1"
+```
+
+Next I restarted both servers using:
+
+```
+sudo systemctl restart mariadb.service
+```
+
+I had to create inbound security rules for ports: 4444, 4567, 4568, 3306 for Galera to work.
+
+Then when I run show databases on node1 I see the list even though I created those databases on node0.
+
+To double check that Galera replication works I connected to mysql and ran:
+```
+SHOW GLOBAL STATUS LIKE 'wsrep_%';
+
++------------------------------+--------------------------------------+
+| Variable_name                | Value                                |
++------------------------------+--------------------------------------+
+| wsrep_apply_oooe             | 0.000000                             |
+| wsrep_apply_oool             | 0.000000                             |
+| wsrep_apply_window           | 0.000000                             |
+| wsrep_causal_reads           | 0                                    |
+| wsrep_cert_deps_distance     | 0.000000                             |
+| wsrep_cert_index_size        | 0                                    |
+| wsrep_cert_interval          | 0.000000                             |
+| wsrep_cluster_conf_id        | 2                                    |
+| wsrep_cluster_size           | 2                                    |
+| wsrep_cluster_state_uuid     | 6f49f7d0-0286-11e7-815b-7e36bbb61894 |
+| wsrep_cluster_status         | Primary                              |
+| wsrep_commit_oooe            | 0.000000                             |
+| wsrep_commit_oool            | 0.000000                             |
+| wsrep_commit_window          | 0.000000                             |
+| wsrep_connected              | ON                                   |
+| wsrep_desync_count           | 0                                    |
+| wsrep_evs_delayed            |                                      |
+| wsrep_evs_evict_list         |                                      |
+| wsrep_evs_repl_latency       | 0/0/0/0/0                            |
+| wsrep_evs_state              | OPERATIONAL                          |
+| wsrep_flow_control_paused    | 0.000000                             |
+| wsrep_flow_control_paused_ns | 0                                    |
+| wsrep_flow_control_recv      | 0                                    |
+| wsrep_flow_control_sent      | 0                                    |
+| wsrep_gcomm_uuid             | bae8127c-0287-11e7-b34c-93277fe76bc5 |
+| wsrep_incoming_addresses     | 172.31.1.215:3306,172.31.15.231:3306 |
+| wsrep_last_committed         | 0                                    |
+| wsrep_local_bf_aborts        | 0                                    |
+| wsrep_local_cached_downto    | 18446744073709551615                 |
+| wsrep_local_cert_failures    | 0                                    |
+| wsrep_local_commits          | 0                                    |
+| wsrep_local_index            | 1                                    |
+| wsrep_local_recv_queue       | 0                                    |
+| wsrep_local_recv_queue_avg   | 0.000000                             |
+| wsrep_local_recv_queue_max   | 1                                    |
+| wsrep_local_recv_queue_min   | 0                                    |
+| wsrep_local_replays          | 0                                    |
+| wsrep_local_send_queue       | 0                                    |
+| wsrep_local_send_queue_avg   | 0.000000                             |
+| wsrep_local_send_queue_max   | 1                                    |
+| wsrep_local_send_queue_min   | 0                                    |
+| wsrep_local_state            | 4                                    |
+| wsrep_local_state_comment    | Synced                               |
+| wsrep_local_state_uuid       | 6f49f7d0-0286-11e7-815b-7e36bbb61894 |
+| wsrep_protocol_version       | 7                                    |
+| wsrep_provider_name          | Galera                               |
+| wsrep_provider_vendor        | Codership Oy <info@codership.com>    |
+| wsrep_provider_version       | 25.3.19(r3667)                       |
+| wsrep_ready                  | ON                                   |
+| wsrep_received               | 3                                    |
+| wsrep_received_bytes         | 219                                  |
+| wsrep_repl_data_bytes        | 0                                    |
+| wsrep_repl_keys              | 0                                    |
+| wsrep_repl_keys_bytes        | 0                                    |
+| wsrep_repl_other_bytes       | 0                                    |
+| wsrep_replicated             | 0                                    |
+| wsrep_replicated_bytes       | 0                                    |
+| wsrep_thread_count           | 2                                    |
++------------------------------+--------------------------------------+
+```

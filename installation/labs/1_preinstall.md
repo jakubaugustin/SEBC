@@ -51,7 +51,7 @@ For ext4 HDD:
 $ lsblk
 
 NAME    MAJ:MIN RM  SIZE RO TYPE MOUNTPOINT
-xvda    202:0    0  100G  0 disk
+ xvda    202:0    0  100G  0 disk
 +-xvda1 202:1    0  100G  0 part /
 xvdb    202:16   0  200G  0 disk /data/hdd_0
 ```
@@ -174,10 +174,22 @@ PERSISTENT_DHCLIENT="1"
 
 Since I use /etc/hosts file I had to use getent utility as follows:
 ```
+# From hostname to IP:
 $for i in {0..5};\
- do getent hosts node$i;\
- done
+  do getent hosts node$i;\
+done
  
+172.31.1.215    node0.testcluster node0
+172.31.15.231   node1.testcluster node1
+172.31.9.230    node2.testcluster node2
+172.31.15.155   node3.testcluster node3
+172.31.2.140    node4.testcluster node4
+
+# From IP to hostname:
+for i in "172.31.1.215" "172.31.15.231" "172.31.9.230" "172.31.15.155" "172.31.2.140";\
+  do getent hosts $i ;\
+done
+
 172.31.1.215    node0.testcluster node0
 172.31.15.231   node1.testcluster node1
 172.31.9.230    node2.testcluster node2

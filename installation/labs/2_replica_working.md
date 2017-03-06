@@ -22,6 +22,7 @@ Refresh the yum cache
 ```
 sudo yum clean all
 ```
+# 2. Installing the MariaDB server
 
 Installing the MariaDB server on node0 and node1.
 Enabling it to start after reboot and starting it.
@@ -33,8 +34,9 @@ for i in {0..1};\
 	ssh -t node$i sudo systemctl start mariadb.service;\
 done
 ```
+# 3. Configuring the MariaDB server
 
-Then runnig initial setup
+Runnig initial setup
 ```
 $ sudo /usr/bin/mysql_secure_installation
 
@@ -104,6 +106,7 @@ innodb_flush_method = O_DIRECT
 innodb_log_file_size = 512M
 ```
 
+# 4. Creating databases
 
 Creating database for Activity Monitor
 ```
@@ -175,3 +178,4 @@ Query OK, 1 row affected (0.00 sec)
 mysql> grant all on oozie.* TO 'oozie'@'%' IDENTIFIED BY 'password_for_oozie';
 Query OK, 0 rows affected (0.00 sec)
 ```
+

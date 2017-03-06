@@ -1,7 +1,9 @@
 Disabling transparent hugepages on Centos 7
 ```
 $ cat /sys/kernel/mm/transparent_hugepage/defrag
+[always] madvise never
 $ cat /sys/kernel/mm/transparent_hugepage/enabled
+[always] madvise never
 ```
 
 Add the following to the bottom of /etc/rc.d/rc.local
@@ -21,6 +23,8 @@ $ chmod u+x /etc/rc.d/rc.local
 Reboot
 ```
 $ init 6
+```
+
 To verfiy if THP is disabled.
 ```
 $ cat /sys/kernel/mm/transparent_hugepage/defrag

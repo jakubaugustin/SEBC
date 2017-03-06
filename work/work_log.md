@@ -1,4 +1,7 @@
-Disabling transparent hugepages on Centos 7
+# SEBC work log
+
+## Disabling transparent hugepages on Centos 7
+To verify if THP is enabled.
 ```
 $ cat /sys/kernel/mm/transparent_hugepage/defrag
 [always] madvise never

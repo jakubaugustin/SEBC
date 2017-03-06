@@ -35,3 +35,40 @@ always madvise [never]
 $ cat /sys/kernel/mm/transparent_hugepage/enabled
 always madvise [never]
 ```
+
+
+## Installing NTP
+Install NTP
+```
+$ sudo yum -y install ntp
+```
+
+Enable NTP
+```
+$ sudo systemctl enable ntpd
+```
+
+Start NTP deamon
+```
+$ sudo systemctl start ntpd
+```
+
+Check that NTP workd
+```
+$ ntpstat
+```
+
+
+## VM swappiness
+
+Setting VM swappiness to 1
+```
+$ echo "vm.swappiness = 1" >> /etc/sysctl.conf 
+$ echo 1 > /proc/sys/vm/swappiness
+```
+
+Check swapiness level
+```
+$ cat /proc/sys/vm/swappiness
+```
+

@@ -2,15 +2,16 @@
 
 ## 1. Check vm.swappiness on all your nodes
 
-Check swapiness level
-```
-$ cat /proc/sys/vm/swappiness
-```
-
 Setting VM swappiness to 1 - using kernel newer than 2.6
 ```
 $ echo "vm.swappiness = 1" >> /etc/sysctl.conf 
 $ echo 1 > /proc/sys/vm/swappiness
+```
+
+Check swapiness level is correct:
+```
+$ cat /proc/sys/vm/swappiness
+1
 ```
 
 ## 2. Show the mount attributes of all volumes
@@ -38,6 +39,7 @@ tmpfs           7.2G   17M  7.2G   1% /run
 tmpfs           7.2G     0  7.2G   0% /sys/fs/cgroup
 /dev/xvdb       197G  2.6G  185G   2% /data/hdd_0
 tmpfs           1.5G     0  1.5G   0% /run/user/1001
+```
 
 ## 3. Show the reserve space of any non-root, ext-based volumes
 

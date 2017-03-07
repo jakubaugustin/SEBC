@@ -7,6 +7,7 @@ sudo -u jakubaugustin hadoop fs -mkdir -p /tmp/jakubaugustin
 
 ## Name a target directory after your partner's GitHub handle
 ```
+sudo -u jakubaugustin hadoop fs -mkdir -p /tmp/giorgio-sonra
 ```
 
 ## Use teragen to create a 500 MB file
@@ -19,11 +20,16 @@ $ time sudo -u jakubaugustin yarn jar /opt/cloudera/parcels/CDH/lib/hadoop-mapre
 
 ## Copy your partner's file to your target directory
 
-We used CM Backup utility to perform distcp
+We used CM Backup utility to perform distcp.
+
 By default this did not work. The following changes to our setup needed to be done:
  - dfs.datanode.use.datanode.hostname changed to true (checked in CM GUI)
  - Data nodes and Namenodes had to be binded to wildcards - to run on every network interface
  - Partner cluster hosts had to be manually added to /etc/hosts on every node of target custer
+ 
+ After that the cluster was configured for HDFS multi-homing.
+ 
+ Replication resuts in CM:
  
 <center><img src="0_replication.png"/></center>
 

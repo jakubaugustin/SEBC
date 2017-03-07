@@ -28,15 +28,63 @@ $ time sudo -u jakubaugustin yarn jar /opt/cloudera/parcels/CDH/lib/hadoop-mapre
  /user/jakubaugustin/teragen
  ```
  
+ 
+ Teragen details:
+ ```
+         File System Counters
+                FILE: Number of bytes read=0
+                FILE: Number of bytes written=489240
+                FILE: Number of read operations=0
+                FILE: Number of large read operations=0
+                FILE: Number of write operations=0
+                HDFS: Number of bytes read=344
+                HDFS: Number of bytes written=10000000000
+                HDFS: Number of read operations=16
+                HDFS: Number of large read operations=0
+                HDFS: Number of write operations=8
+        Job Counters
+                Launched map tasks=4
+                Other local map tasks=4
+                Total time spent by all maps in occupied slots (ms)=632632
+                Total time spent by all reduces in occupied slots (ms)=0
+                Total time spent by all map tasks (ms)=632632
+                Total vcore-seconds taken by all map tasks=632632
+                Total megabyte-seconds taken by all map tasks=647815168
+        Map-Reduce Framework
+                Map input records=100000000
+                Map output records=100000000
+                Input split bytes=344
+                Spilled Records=0
+                Failed Shuffles=0
+                Merged Map outputs=0
+                GC time elapsed (ms)=1492
+                CPU time spent (ms)=164330
+                Physical memory (bytes) snapshot=877101056
+                Virtual memory (bytes) snapshot=6341353472
+                Total committed heap usage (bytes)=812122112
+        org.apache.hadoop.examples.terasort.TeraGen$Counters
+                CHECKSUM=214760662691937609
+        File Input Format Counters
+                Bytes Read=0
+        File Output Format Counters
+                Bytes Written=10000000000
+
+real    2m51.265s
+user    0m6.451s
+sys     0m0.291s
+
+ ```
+ 
  Check what was generated:
  ```
  sudo -u jakubaugustin hadoop fs -ls teragen
  
--rw-r--r--   3 jakubaugustin jakubaugustin          0 2017-03-06 22:05 teragen/_SUCCESS
--rw-r--r--   3 jakubaugustin jakubaugustin 2500000000 2017-03-06 22:05 teragen/part-m-00000
--rw-r--r--   3 jakubaugustin jakubaugustin 2500000000 2017-03-06 22:05 teragen/part-m-00001
--rw-r--r--   3 jakubaugustin jakubaugustin 2500000000 2017-03-06 22:05 teragen/part-m-00002
--rw-r--r--   3 jakubaugustin jakubaugustin 2500000000 2017-03-06 22:05 teragen/part-m-00003
+Found 5 items
+-rw-r--r--   3 jakubaugustin jakubaugustin          0 2017-03-07 10:33 teragen/_SUCCESS
+-rw-r--r--   3 jakubaugustin jakubaugustin 2500000000 2017-03-07 10:33 teragen/part-m-00000
+-rw-r--r--   3 jakubaugustin jakubaugustin 2500000000 2017-03-07 10:33 teragen/part-m-00001
+-rw-r--r--   3 jakubaugustin jakubaugustin 2500000000 2017-03-07 10:33 teragen/part-m-00002
+-rw-r--r--   3 jakubaugustin jakubaugustin 2500000000 2017-03-07 10:33 teragen/part-m-00003
 
  ```
  

@@ -27,8 +27,8 @@ The test cases:
 
 *The slowest job:*
 - Mapper containers [n]: 8 _(+1 application master)_
-- Mapper container size [MB]: 512 _(820m heap size)_
+- Mapper container size [MB]: 512 _(409m heap size)_
 - Reducer containers [n]: 1 _(+1 application master)_
-- Reducer container size [MB]: 512 _(820, heap size)_ 
+- Reducer container size [MB]: 512 _(409m, heap size)_ 
 - Teragen duration [s]: 180
 - Terasort duration [s]: 349

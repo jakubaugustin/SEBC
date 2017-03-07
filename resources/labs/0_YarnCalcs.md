@@ -1,14 +1,16 @@
 #YARN/RM Lab: Doing the Math
 
-* Motivation: My goal was to identify maximum number of containersr that could run in parallel during terasort and teragen tests*
+_Motivation: My goal was to identify maximum number of containers that could run in parallel during terasort and teragen tests._
 **Lab assumptions:**
-  - No more than one MR job will run at any time (FIFO scheduler style :) )
-  - Settings are optimized for artificial teragen tests only
-  - I assume that value in Worker vcores represents physical cores
+- No more than one MR job will run at any time (FIFO scheduler style :) )
+- Settings are optimized for artificial teragen tests only
+- I assume that value in Worker vcores represent physical cores
 
 ## Changes to calculation sheet
 <center><img src="1_YARNCalcs.png" /></center>
+
 *Values/Formulas I changed are marked as CHANGED*
+
 *Values/Formulas I added are marked as ADDED*
 
 - **Vcore multiplier:** I added vcore multiplier to calculate yarn.nodemanager.resource.cpu-vcores. This could be higher than number of physical cores and some workloads may benefit from it.
@@ -25,7 +27,9 @@
 ## Workload explanation
 
 804 containers could run in parallel on given cluster.
+
 Vcores per spindle ratio is very high and any write heavy tasks like Teragen will probably end with CPU stuck at io_wait.
+
 This setup may work much better for computation tasks (deep learning, simulations, etc.).
 
   

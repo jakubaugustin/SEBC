@@ -12,7 +12,6 @@ Copy REPO zip into it:
 sudo su jakubaugustin
 $ cd ~
 $ wget https://github.com/jakubaugustin/SEBC/archive/master.zip
-$ chmod 775 ./master.zip
 $ hadoop fs -put ./master.zip precious/
 $ rm -f master.zip
 ```

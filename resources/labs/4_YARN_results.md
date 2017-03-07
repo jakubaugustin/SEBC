@@ -18,17 +18,21 @@ The test cases:
 ## Results:
 
 *The fastest job:* 
-- Mapper containers [n]: 8 _(+1 application master)_
-- Mapper container size [MB]: 1024 _(820m heap size)_
-- Reducer containers [n]: 23 _(+1 application master)_
-- Reducer container size [MB]: 1024 _(820, heap size)_
-- Teragen duration [s]: 158
-- Terasort duration [s]: 201
+- Teragen _(ignoring reduce settings)_
+ - Mapper containers [n]: 8 _(+1 application master)_
+ - Mapper container size [MB]: 1024 _(820m heap size)_
+ - Teragen duration [s]: 158
+- Terasort _(ignoring mapper count settings, because 92 mappers run for each job)_
+ - Reducer containers [n]: 23 _(+1 application master)_
+ - Reducer container size [MB]: 1024 _(820, heap size)_
+ - Terasort duration [s]: 201
 
 *The slowest job:*
-- Mapper containers [n]: 8 _(+1 application master)_
-- Mapper container size [MB]: 512 _(409m heap size)_
-- Reducer containers [n]: 1 _(+1 application master)_
-- Reducer container size [MB]: 512 _(409m, heap size)_ 
-- Teragen duration [s]: 180
-- Terasort duration [s]: 349
+- Teragen _(ignoring reduce settings)_
+ - Mapper containers [n]: 8 _(+1 application master)_
+ - Mapper container size [MB]: 512 _(409m heap size)_
+ - Teragen duration [s]: 180
+- Terasort _(ignoring mapper count settings, because 92 mappers run for each job)_
+ - Reducer containers [n]: 1 _(+1 application master)_
+ - Reducer container size [MB]: 512 _(409m, heap size)_ 
+ - Terasort duration [s]: 349

@@ -11,7 +11,7 @@ My script iterated over combinations of the following settings:
 - Container memory: 512, 1024
 
 The test cases:
-<center><img src="png/job-conparision.png" /></center>
+<center><img src="png/job-comparison.png" /></center>
 
 <center><img src="png/job-duration.png" /></center>
 

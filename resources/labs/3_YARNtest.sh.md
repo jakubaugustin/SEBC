@@ -1,3 +1,4 @@
+```
 #!/bin/sh
 # Confirm the path values given below correspond to your installation
 
@@ -68,3 +69,4 @@ do
 done
 
 echo Testing loop ended on `date`
+```

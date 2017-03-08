@@ -12,14 +12,17 @@ Administration > Settings > Kerberos > Kerberos Security Realm (default_realm)
 - **HBase:** hbase.security.authentication
 - **SOLR:** Solr Secure Authentication
 
-*Other services (i.e. YARN) have a property to enable Kerberos authentication fow web UIs*
+*Other services (i.e. YARN) have a property to enable Kerberos authentication fow web UIs.*
+
 *All services need to have kerberos principal information to work in kerberized cluster*
 
 ## How do you upgrade the CM agents?
 Either using CM upgrade wizard after upgrading the CM server or manually using yum upgrade cloudera-manager-agent or manually via tarballs.
 
 ## Give the tsquery statement used to chart Hue's CPU utilization?
+```
 select cpu_system_rate + cpu_user_rate where category=ROLE and serviceName="HUE"
+```
 
 ## Name all the roles that make up the Hive service
 - Hive Metastore Server

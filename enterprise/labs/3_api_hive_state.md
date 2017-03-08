@@ -1,3 +1,4 @@
+```
 #!/bin/sh
 
 cloudera_server_url="http://35.163.17.217:7180"
@@ -51,3 +52,4 @@ case $1 in
 		exit
 	;;
 esac
+```

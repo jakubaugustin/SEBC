@@ -8,11 +8,12 @@ Extra overhead of requeting containers from YARN for mappers and reducers is eli
 Administration > Settings > Kerberos > Kerberos Security Realm (default_realm)
 
 ## Which CDH service(s) host a property for enabling Kerberos authentication?
-Hadoop HDFS: hadoop.security.authentication
-HBase: hbase.security.authentication
-SOLR: Solr Secure Authentication
+-**Hadoop HDFS:** hadoop.security.authentication
+-**HBase:** hbase.security.authentication
+-**SOLR:** Solr Secure Authentication
 
-Other services (i.e. YARN) have a property to enable Kerberos authentication fow web UIs
+*Other services (i.e. YARN) have a property to enable Kerberos authentication fow web UIs*
+*All services need to have kerberos principal information to work in kerberized cluster*
 
 ## How do you upgrade the CM agents?
 Either using CM upgrade wizard after upgrading the CM server or manually using yum upgrade cloudera-manager-agent or manually via tarballs.

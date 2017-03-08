@@ -36,16 +36,14 @@ assembled_url=${cloudera_server_url}"/api/v"${cloudera_api_version}"/clusters/"$
 
 echo ${assembled_url}
 
-curl -X ${http_op} -u ${USER}:${PASS} ${assembled_url} 2> curl_out
+curl_out=$(curl -s -X ${http_op} -u ${USER}:${PASS} ${assembled_url})
 
 case $1 in 
 	start|stop)
-	# TODO: use jq to parse JSON output and evaluate results
-		echo curl_out
+		echo $curl_out | jq '.resultMessage'
 	;;
 	status)
-	# TODO: use jq to parse JSON output and evaluate results
-		echo curl_out
+		echo $curl_out | jq '.serviceState'
 	;;
 	*)
 		echo "Hic sunt leones"

@@ -1,4 +1,4 @@
-# CM Treasure Hun
+# CM Treasure Hunt
 ## What is ubertask optimization?
 Running MapReduce application directly in ApplicationManager.
 This may provide performance boost for smaller jobs that can fit into single container. (Some larger jobs may fail for lack of resources in this mode).

@@ -1,5 +1,18 @@
 # SEBC work log
 
+## VM swappiness
+
+Setting VM swappiness to 1 - using kernel newer than 2.6
+```
+$ echo "vm.swappiness = 1" >> /etc/sysctl.conf 
+$ echo 1 > /proc/sys/vm/swappiness
+```
+
+Check swapiness level
+```
+$ cat /proc/sys/vm/swappiness
+```
+
 ## Disabling transparent hugepages on Centos 7
 To verify if THP is enabled.
 ```
@@ -57,18 +70,3 @@ Check that NTP workd
 ```
 $ ntpstat
 ```
-
-
-## VM swappiness
-
-Setting VM swappiness to 1
-```
-$ echo "vm.swappiness = 1" >> /etc/sysctl.conf 
-$ echo 1 > /proc/sys/vm/swappiness
-```
-
-Check swapiness level
-```
-$ cat /proc/sys/vm/swappiness
-```
-

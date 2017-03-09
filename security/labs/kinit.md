@@ -1,14 +1,14 @@
 ```
-$ kinit jakubaugustin@TESTCLUSTER.COM
-Password for jakubaugustin@TESTCLUSTER.COM: [mypassword]
-```
-```
+$ kinit jakubaugustin
+Password for jakubaugustin@TESTCLUSTER.COM:
+
+
 $ klist
 
-
-Ticket cache: FILE:/tmp/krb5cc_1001
+Ticket cache: FILE:/tmp/krb5cc_0
 Default principal: jakubaugustin@TESTCLUSTER.COM
 
 Valid starting       Expires              Service principal
-03/08/2017 16:40:00  03/09/2017 16:40:00  krbtgt/TESTCLUSTER.COM@TESTCLUSTER.COM
+03/09/2017 08:20:15  03/10/2017 08:20:15  krbtgt/TESTCLUSTER.COM@TESTCLUSTER.COM
+        renew until 03/16/2017 08:20:15
 ```

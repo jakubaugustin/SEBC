@@ -306,20 +306,61 @@ sude systemctl start clouderascm-server
 
 ```
 
- 
+Create hdfs users:
+```
+sudo -u hdfs hadoop fs -mkdir /user/raffles
+sudo -u hdfs hadoop fs -chown raffles:raffles /user/raffles
 
-	for i in "172.31.26.195" "172.31.17.77" "172.31.18.235";\
- do echo "now doing $i";\
- ssh -i ~/key.pem -t $i yum -y install krb5-workstation krb5-libs krb5-auth-dialog;\
- done
+sudo -u hdfs hadoop fs -mkdir /user/fullerton
+sudo -u hdfs hadoop fs -chown fullerton:fullerton /user/fullerton
+```
+
+
+Run teragen
+```
+time sudo -u raffles yarn jar /opt/cloudera/parcels/CDH/lib/hadoop-mapreduce/hadoop-mapreduce-examples.jar teragen\
+ -Dmapred.map.tasks=6\
+ -Ddfs.block.size=33554432\
+ 52000000\
+ /user/raffles/teragen512m
  
+hdfs fs -ls /user/raffles/teragen512m
+
+hdfs fsck /user/raffles/teragen512m -files -blocks
+```
+
+# Kerberize cluster
+
+## Install kerberos for master node
+
+```
+sudo yum -y install krb5-server krb5-libs krb5-auth-dialog krb5-workstation
+```
+
+```
+for i in "172.31.2.124" "172.31.15.80" "172.31.4.183" "172.31.15.21" "172.31.9.167";\
+ do echo "now doing $i";\
+ ssh -i ~/key.pem -t $i sudo yum -y install krb5-workstation krb5-libs krb5-auth-dialog;\
+done
+```
+ 
+## Run tests
   
+```
  time  yarn jar /opt/cloudera/parcels/CDH/lib/hadoop-mapreduce/hadoop-mapreduce-examples.jar teragen\
  -Dmapred.map.tasks=4\
  -Ddfs.block.size=33554432\
  52000000\
  /user/raffles/teragen512
- 
- 
+```
+
+```
   time  yarn jar /opt/cloudera/parcels/CDH/lib/hadoop-mapreduce/hadoop-mapreduce-examples.jar pi 10 100\
- -Dmapred.map.tasks=4\
+```
+
+#Sentry and beeline
+
+## connect command
+```
+	
+```

@@ -5,11 +5,12 @@ AWS 5x m3.xlarge instabce using centos 7 AMI from marketplace
 
 List the nodes you are using by IP address and name
 ```
-for i in "172.31.11.167" "172.31.9.63" "172.31.14.21" "172.31.6.252" "172.31.4.66";\
+for i in "172.31.4.66" "172.31.11.167" "172.31.9.63" "172.31.14.21" "172.31.6.252";\
 do \
 	ssh -t -i ~/key.pem $i sudo hostname -f;\
 done
-
+ip-172-31-4-66.us-west-2.compute.internal
+Connection to 172.31.4.66 closed.
 ip-172-31-11-167.us-west-2.compute.internal
 Connection to 172.31.11.167 closed.
 ip-172-31-9-63.us-west-2.compute.internal
@@ -18,9 +19,6 @@ ip-172-31-14-21.us-west-2.compute.internal
 Connection to 172.31.14.21 closed.
 ip-172-31-6-252.us-west-2.compute.internal
 Connection to 172.31.6.252 closed.
-ip-172-31-4-66.us-west-2.compute.internal
-Connection to 172.31.4.66 closed.
-
 ```
 List the Linux release you are using
 ```

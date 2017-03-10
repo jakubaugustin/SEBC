@@ -1,33 +1,9 @@
+```
 kinit neymar
+
+
 Password for neymar@JAKUBAUGUSTIN.ES:
-[centos@ip-172-31-11-167 ~]$  time  yarn jar /opt/cloudera/parcels/CDH/lib/hadoop-mapreduce/hadoop-mapreduce-examples.jar terasort\
->  -Dmapred.map.tasks=4\
->  /user/neymar/tgen640
-17/03/10 10:08:18 INFO terasort.TeraSort: starting
 
-java.lang.ArrayIndexOutOfBoundsException: 1
-        at org.apache.hadoop.examples.terasort.TeraSort.run(TeraSort.java:284)
-        at org.apache.hadoop.util.ToolRunner.run(ToolRunner.java:70)
-        at org.apache.hadoop.examples.terasort.TeraSort.main(TeraSort.java:325)
-        at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-        at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
-        at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-        at java.lang.reflect.Method.invoke(Method.java:606)
-        at org.apache.hadoop.util.ProgramDriver$ProgramDescription.invoke(ProgramDriver.java:71)
-        at org.apache.hadoop.util.ProgramDriver.run(ProgramDriver.java:144)
-        at org.apache.hadoop.examples.ExampleDriver.main(ExampleDriver.java:74)
-        at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-        at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
-        at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-        at java.lang.reflect.Method.invoke(Method.java:606)
-        at org.apache.hadoop.util.RunJar.run(RunJar.java:221)
-        at org.apache.hadoop.util.RunJar.main(RunJar.java:136)
-
-real    0m1.423s
-user    0m2.496s
-sys     0m0.145s
-[centos@ip-172-31-11-167 ~]$  /user/neymar/tsort640m
--bash: /user/neymar/tsort640m: No such file or directory
 [centos@ip-172-31-11-167 ~]$  time  yarn jar /opt/cloudera/parcels/CDH/lib/hadoop-mapreduce/hadoop-mapreduce-examples.jar terasort\
 >  -Dmapred.map.tasks=4\
 >  /user/neymar/tgen640\
@@ -122,3 +98,4 @@ Spent 1943ms computing partitions.
 real    6m25.870s
 user    0m10.209s
 sys     0m0.392s
+```

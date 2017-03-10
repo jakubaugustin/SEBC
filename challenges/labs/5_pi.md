@@ -1,3 +1,4 @@
+```
 kinit ronaldo
 Password for ronaldo@JAKUBAUGUSTIN.ES:
 [ronaldo@ip-172-31-4-66 centos]$ time  yarn jar /opt/cloudera/parcels/CDH/lib/ha                                                                                                                                   doop-mapreduce/hadoop-mapreduce-examples.jar pi 10 100\
@@ -97,3 +98,4 @@ Estimated value of Pi is 3.14800000000000000000
 real    0m57.450s
 user    0m7.977s
 sys     0m0.406s
+```

@@ -4,7 +4,7 @@
 
 ## IP list
 ```
-"172.31.2.124" "172.31.15.80" "172.31.4.183" "172.31.15.21" "172.31.9.167"
+"172.31.11.167" "172.31.9.63" "172.31.14.21" "172.31.6.252" "172.31.4.66"
 ```
 
 **Copy key to machine:**
@@ -45,7 +45,7 @@ $ chmod 600 ~/key.pem
 
 **Check hostnames work:**
 ```
-for i in "172.31.2.124" "172.31.15.80" "172.31.4.183" "172.31.15.21" "172.31.9.167";\
+for i in "172.31.11.167" "172.31.9.63" "172.31.14.21" "172.31.6.252" "172.31.4.66";\
 do \
 	ssh -t -i ~/key.pem $i sudo hostname -f;\
 done
@@ -53,17 +53,19 @@ done
 
 Add the following to the bottom of /etc/rc.d/rc.local
 ```
+sudo vi /etc/rc.d/rc.local
+
 if test -f /sys/kernel/mm/transparent_hugepage/enabled; then
 echo never > /sys/kernel/mm/transparent_hugepage/enabled
 fi
 if test -f /sys/kernel/mm/transparent_hugepage/defrag; then
 echo never > /sys/kernel/mm/transparent_hugepage/defrag
 fi
-
+```
 
 Distribute rc.local	
 ```	
-for i in "172.31.2.124" "172.31.15.80" "172.31.4.183" "172.31.15.21" "172.31.9.167";\
+for i in "172.31.11.167" "172.31.9.63" "172.31.14.21" "172.31.6.252" "172.31.4.66";\
  do echo "now doing node$i";\
  ssh -i ~/key.pem -t $i sudo cp /etc/rc.d/rc.local ~;\
  scp -i ~/key.pem /etc/rc.d/rc.local $i:/tmp;\
@@ -76,12 +78,22 @@ done
 
 Enable ntp
 ```	
-for i in "172.31.2.124" "172.31.15.80" "172.31.4.183" "172.31.15.21" "172.31.9.167";\
+for i in "172.31.11.167" "172.31.9.63" "172.31.14.21" "172.31.6.252" "172.31.4.66";\
  do echo "now doing node$i";\
  ssh -i ~/key.pem -t $i sudo yum install -y ntp;\
  ssh -i ~/key.pem -t $i sudo systemctl enable ntpd;\
  ssh -i ~/key.pem -t $i sudo systemctl start ntpd;\
  ssh -i ~/key.pem -t $i sudo ntpstat;\
+done
+```
+
+Disable SELinux
+```
+for i in "172.31.11.167" "172.31.9.63" "172.31.14.21" "172.31.6.252" "172.31.4.66";\
+ do echo "now doing node$i";\
+ scp -i ~/key.pem /etc/selinux/config $i:/tmp;\
+ ssh -i ~/key.pem -t $i sudo cp /tmp/config /etc/selinux/;\
+ ssh -i ~/key.pem -t $i sudo reboot;\
 done
 ```
 
@@ -126,7 +138,7 @@ repolist: 22,087
 **Add the following Linux accounts to all nodes**
 
 ```
-for i in "172.31.2.124" "172.31.15.80" "172.31.4.183" "172.31.15.21" "172.31.9.167";\
+for i in "172.31.11.167" "172.31.9.63" "172.31.14.21" "172.31.6.252" "172.31.4.66";\
 	do \
 	ssh -t -i ~/key.pem $i hostname;\
 	ssh -t -i ~/key.pem $i sudo useradd -u 2000 raffles;\
@@ -179,10 +191,23 @@ Installing the MariaDB server on node0 and node1.
 Enabling it to start after reboot and starting it.
 
 ```
-yum -y install MariaDB-server
+sudo yum -y install MariaDB-server
 sudo systemctl enable mariadb.service
 sudo systemctl start mariadb.service
 ```
+
+copy repo to all hosts and install maraiadb clients
+```
+for i in "172.31.11.167" "172.31.9.63" "172.31.14.21" "172.31.6.252" "172.31.4.66";\
+	do \
+	ssh -t -i ~/key.pem $i hostname;\
+	scp -i ~/key.pem /etc/yum.repos.d/mariadb.repo $i:/tmp;\
+	ssh -t -i ~/key.pem $i sudo cp /tmp/mariadb.repo /etc/yum.repos.d\;
+	ssh -t -i ~/key.pem $i sudo yum clean all\;
+	ssh -t -i ~/key.pem $i sudo yum -y install MariaDB-client \;
+done
+```
+
 # 3. Configuring the MariaDB server
 
 Runnig initial setup
@@ -208,6 +233,8 @@ All done!
 
 ## Mysql create databases
 ```
+mysql -uroot -pcloudera
+
 create database amon DEFAULT CHARACTER SET utf8;
 grant all on amon.* TO 'amon'@'%' IDENTIFIED BY 'password_for_amon';
 
@@ -253,7 +280,7 @@ gpgcheck = 1
 
 to distribute it to other hosts I used:
 ```
-for i in "172.31.2.124" "172.31.15.80" "172.31.4.183" "172.31.15.21" "172.31.9.167";\
+for i in "172.31.11.167" "172.31.9.63" "172.31.14.21" "172.31.6.252" "172.31.4.66";\
 	do \
 	ssh -t -i ~/key.pem $i hostname;\
 	scp -i ~/key.pem /etc/yum.repos.d/cm.repo $i:/tmp;\
@@ -266,7 +293,7 @@ done
 ## Installing Java
 Next I installed java to all hosts:
 ```
-for i in "172.31.2.124" "172.31.15.80" "172.31.4.183" "172.31.15.21" "172.31.9.167";\
+for i in "172.31.11.167" "172.31.9.63" "172.31.14.21" "172.31.6.252" "172.31.4.66";\
 	do \
 	ssh -t -i ~/key.pem $i sudo yum -y install oracle-j2sdk1.7;\
 done
@@ -287,7 +314,7 @@ sudo cp mysql-connector-java-5.1.41/mysql-connector-java-5.1.41-bin.jar /usr/sha
 
 Next distribute JDBC driver
 ```
-for i in "172.31.2.124" "172.31.15.80" "172.31.4.183" "172.31.15.21" "172.31.9.167";\
+for i in "172.31.11.167" "172.31.9.63" "172.31.14.21" "172.31.6.252" "172.31.4.66";\
 	do \
 	scp -i ~/key.pem /usr/share/java/mysql-connector-java.jar $i:/tmp;\
 	ssh -t -i ~/key.pem $i sudo mkdir -p /usr/share/java\;
@@ -302,7 +329,13 @@ sudo yum install -y cloudera-manager-daemons cloudera-manager-server
 sudo systemctl enable cloudera-scm-server
 sudo /usr/share/cmf/schema/scm_prepare_database.sh -uroot -pcloudera mysql scm scm
 
-sude systemctl start clouderascm-server
+sudo systemctl start cloudera-scm-server
+
+sudo tail -f /var/log/cloudera-scm-server/cloudera-scm-server.log
+
+sudo head -n 1 /var/log/cloudera-scm-server/cloudera-scm-server.log
+
+sudo cat /var/log/cloudera-scm-server/cloudera-scm-server.log | grep "Started Jetty server"
 
 ```
 
@@ -322,7 +355,7 @@ time sudo -u raffles yarn jar /opt/cloudera/parcels/CDH/lib/hadoop-mapreduce/had
  -Dmapred.map.tasks=6\
  -Ddfs.block.size=33554432\
  52000000\
- /user/raffles/teragen512m
+ /user/raffles/tgen512m
  
 hdfs fs -ls /user/raffles/teragen512m
 
@@ -338,11 +371,98 @@ sudo yum -y install krb5-server krb5-libs krb5-auth-dialog krb5-workstation
 ```
 
 ```
-for i in "172.31.2.124" "172.31.15.80" "172.31.4.183" "172.31.15.21" "172.31.9.167";\
+for i in "172.31.11.167" "172.31.9.63" "172.31.14.21" "172.31.6.252" "172.31.4.66";\
  do echo "now doing $i";\
  ssh -i ~/key.pem -t $i sudo yum -y install krb5-workstation krb5-libs krb5-auth-dialog;\
 done
 ```
+
+```
+sudo vi /var/kerberos/krb5kdc/kdc.conf
+
+
+[kdcdefaults]
+ kdc_ports = 88
+ kdc_tcp_ports = 88
+
+[realms]
+  JAKUBAUGUSTIN = {
+  #master_key_type = aes256-cts
+  acl_file = /var/kerberos/krb5kdc/kadm5.acl
+  dict_file = /usr/share/dict/words
+  admin_keytab = /var/kerberos/krb5kdc/kadm5.keytab
+  supported_enctypes = aes256-cts:normal aes128-cts:normal des3-hmac-sha1:normal arcfour-hmac:normal des-hmac-sha1:normal des-cbc-md5:normal des-cbc-crc:normal
+  max_life = 1d
+  max_renewable_life = 7d
+ }
+ ```
+
+
+```
+sudo vi /etc/krb5.conf 
+
+
+[logging]
+ default = FILE:/var/log/krb5libs.log
+ kdc = FILE:/var/log/krb5kdc.log
+ admin_server = FILE:/var/log/kadmind.log
+
+[libdefaults]
+ default_realm = JAKUBAUGUSTIN
+ dns_lookup_realm = false
+ dns_lookup_kdc = false
+ ticket_lifetime = 24h
+ renew_lifetime = 7d
+ forwardable = true
+ udp_preference_limit = 1
+ default_tgs_enctypes = arcfour-hmac
+ default_tkt_enctypes = arcfour-hmac 
+
+[realms] 
+  JAKUBAUGUSTIN = {
+  kdc = 172.31.3.167
+  admin_server = 172.31.3.167
+ }
+ 
+``` 
+
+```
+sudo /usr/sbin/kdb5_util create -s
+```
+
+
+```
+sudo kadmin.local
+kadmin.local:  addprinc cloudera-scm
+```
+
+
+```
+sudo vi /var/kerberos/krb5kdc/kadm5.acl 
+
+*/admin@JAKUBAUGUSTIN *
+cloudera-scm@JAKUBAUGUSTIN admilc
+```
+
+```
+sudo systemctl enable krb5kdc
+sudo systemctl enable kadmin
+
+sudo systemctl start krb5kdc
+sudo systemctl start kadmin
+```
+
+```
+sudo kadmin.local
+ addpol admin
+ addpol users
+ addpol hosts
+ exit
+```
+ 
+
+
+	
  
 ## Run tests
   
@@ -363,4 +483,29 @@ done
 ## connect command
 ```
 	
+```
+
+
+
+
+```
+for i in "172.31.11.167" "172.31.9.63" "172.31.14.21" "172.31.6.252" "172.31.4.66";\
+ do ssh -t -i ~/key.pem $i sudo mkdir -p /opt/cloudera/security/jks/;\
+ scp -i ~/key.pem /opt/cloudera/security/jks/selfsigned.cer $i:/tmp;\
+ ssh -i ~/key.pem -t $i sudo cp /tmp/selfsigned.cer /opt/cloudera/security/jks/;\
+ ssh -i ~/key.pem -t $i sudo chown -R cloudera-scm:cloudera-scm /opt/cloudera/security/jks;\
+ ssh -i ~/key.pem -t $i sudo /usr/java/jdk1.7.0_67-cloudera/bin/keytool -import -alias cmhost2 -file /opt/cloudera/security/jks/selfsigned.cer \
+   -keystore /usr/java/jdk1.7.0_67-cloudera/jre/lib/security/jssecacerts -storepass changeit;\
+done
+```
+
+
+
+```
+for i in "172.31.11.167" "172.31.9.63" "172.31.14.21" "172.31.6.252" "172.31.4.66";\
+	do \
+	scp -i ~/key.pem /etc/cloudera-scm-agent/config.ini $i:/tmp;\
+	ssh -t -i ~/key.pem $i sudo cp /tmp/config.ini /etc/cloudera-scm-agent;\
+	ssh -t -i ~/key.pem $i sudo systemctl restart cloudera-scm-agent;\
+done
 ```
